@@ -54,7 +54,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     //This is set to 1 to indicate only one section on the table.
     return 1;
@@ -62,7 +61,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.listItems count];
 }
@@ -83,25 +81,36 @@
 }
 
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIndentifier = @"ListPrototypeCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    
+    NSDictionary* attributes = @{
+                                 NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]
+                                 };
     ToDoItem *item = [self.listItems objectAtIndex:indexPath.row];
+    
+    NSAttributedString* attrText = [[NSAttributedString alloc] initWithString:item.name attributes:attributes];
     
     cell.textLabel.text = item.name;
     
     if (item.done){
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         cell.backgroundColor = [UIColor grayColor];
+        
+        cell.textLabel.attributedText = attrText;
+        
+        
+
     }
     else{
         cell.accessoryType = UITableViewCellAccessoryNone;
- 
         cell.backgroundColor = [UIColor clearColor];
+        
+        cell.textLabel.text = item.name;
         
     }
     return cell;
@@ -117,7 +126,7 @@
 }
 */
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -128,7 +137,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.
@@ -152,13 +161,15 @@
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     ToDoItem *tappedItem = [self.listItems objectAtIndex:indexPath.row];
     tappedItem.done = !tappedItem.done;
     
-    
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+
+    
+
     
 }
 

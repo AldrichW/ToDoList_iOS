@@ -36,6 +36,11 @@
     [super tearDown];
 }
 
+- (void)testAllTests{
+    [self testToDoListObjectCreated];
+    [self testToDoListNumber];
+}
+
 - (void)testToDoListObjectCreated
 {
     ToDoItem *element = [[ToDoItem alloc] init];
@@ -45,7 +50,36 @@
    
 }
 
-- (void)testToDoListNameShortened{
+-(void)testlistItemsGenerated{
+    ToDoListTableViewController *newController = [[ToDoListTableViewController alloc]init];
+    
+    newController.listItems = [[NSMutableArray alloc]init];
+    
+    ToDoItem *item1 = [[ToDoItem alloc] init];
+    item1.name = @"Buy Milk";
+    ToDoItem *item2 = [[ToDoItem alloc] init];
+    item2.name = @"Code code code";
+    ToDoItem *item3 = [[ToDoItem alloc] init];
+    item3.name = @"Go to Bed";
+    
+    [newController.listItems addObject:item1];
+    
+    [newController.listItems addObject:item2];
+    
+    [newController.listItems addObject:item3];
+    
+    XCTAssertNotNil(newController, "TableView Controller could not be initialized");
+    
+    XCTAssertNotNil (newController.listItems, "List Items did not intialize properly");
+    
+    XCTAssertEqual([[newController.listItems objectAtIndex:0] name], @"Buy Milk", @"Item name 0 not properly dispalyed");
+    
+    XCTAssertEqual([[newController.listItems objectAtIndex:1] name], @"Code code code", @"Item name 1 not properly dispalyed");
+    
+    XCTAssertEqual([[newController.listItems objectAtIndex:2] name], @"Go to Bed", @"Item name 2 not properly dispalyed");
+}
+
+- (void)testToDoListNumber{
     
     ToDoListTableViewController *newController = [[ToDoListTableViewController alloc]init];
     
@@ -66,7 +100,8 @@
     
     XCTAssertEqual([newController.listItems count], 3, @"The number of items displayed should be 3");
     
-    
 }
+
+
 
 @end
